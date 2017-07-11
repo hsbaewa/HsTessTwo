@@ -1,0 +1,43 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+group = 'com.github.hsbaewa'
+
+android {
+    sourceSets.main {
+        // Compile된 Native Library가 위치하는 경로를 설정합니다.
+        jniLibs.srcDir 'src/main/libs'
+
+        // 여기에 JNI Source 경로를 설정하면 Android Studio에서 기본적으로 지원하는 Native
+        // Library Build가 이루어집니다. 이 경우에 Android.mk와 Application.mk를
+        // 자동으로 생성하기 때문에 편리하지만, 세부 설정이 어렵기 때문에 JNI Source의
+        // 경로를 지정하지 않습니다.
+        jni.srcDirs = []
+    }
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    testCompile 'junit:junit:4.12'
+}
